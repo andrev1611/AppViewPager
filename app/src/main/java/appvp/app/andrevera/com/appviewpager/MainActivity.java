@@ -1,5 +1,6 @@
 package appvp.app.andrevera.com.appviewpager;
 
+import android.net.Uri;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -18,7 +19,7 @@ import android.view.ViewGroup;
 
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements azulFragment.OnFragmentInteractionListener,verdeFragment.OnFragmentInteractionListener,naranjaFragment.OnFragmentInteractionListener{
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -85,6 +86,11 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -102,12 +108,28 @@ public class MainActivity extends AppCompatActivity {
          * Returns a new instance of this fragment for the given section
          * number.
          */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
-            PlaceholderFragment fragment = new PlaceholderFragment();
+        public static Fragment newInstance(int sectionNumber) {
+
+            //AQUI ES DONDE INDICAMOS LOS FRAGMENTS
+            Fragment fr=null;
+            switch (sectionNumber){
+                case 1:
+                    fr = new verdeFragment();
+                    break;
+                case 2:
+                    fr = new naranjaFragment();
+                    break;
+                case 3:
+                    fr = new azulFragment();
+                    break;
+            }
             Bundle args = new Bundle();
             args.putInt(ARG_SECTION_NUMBER, sectionNumber);
-            fragment.setArguments(args);
-            return fragment;
+
+            return fr;//A VECES SALE ERROR DE APP.V4 QUE PARECE SER POR QUE TRABAJAMOS CON LA API 15 Y NO LA ACTUAL
+            //PERO SE SOLUCIONA IMPORTANDO EL FRAGMENT DE APP.V4 Y AL USAR FRAGMENTS SE TIENE QUE
+            //IMPLEMENTAR DE LA CLASE.ONFRAGMENTINTERACTION.... ejemplo
+            //verdeFragment.OnFragmentIntera.....
         }
 
         @Override
@@ -139,7 +161,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
+            // AQUI SE MODIFICA SEGÚN LA CANTIDAD DE VIEW PAGES QUE QUIEREN MOSTRAR EN ESTE CASO
+            //TENEMOS 3 ENTONCES EL VALOR A DEVOLVER LO INDICAMOS COMO 3
             return 3;
         }
 
